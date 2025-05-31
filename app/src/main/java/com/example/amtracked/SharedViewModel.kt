@@ -40,7 +40,6 @@ class SharedViewModel : ViewModel() {
             } catch (e: Exception) {
                 Log.e("Train API Call", "Error during Train API call: ${e.message}")
             }
-
         }
     }
 
@@ -57,21 +56,9 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-//    fun getTrains():  List<Train> {
-//        return trainMap.values.flatMap { it }
-//    }
-////
-//    fun getStations(): Map<String, StationMeta> {
-//        return thisApi.StationApiCall()
-//    }
-
     fun getTrainById(trainId: String): Train? {
         return _trains.value?.values?.flatten()?.find { it.trainID == trainId }
     }
-
-//    fun getStationsByTrainId(trainId: String): List<Station> {
-//        return _stations.value?.values?.filter {  }
-//    }
 
     fun getTrainsByKeys(trainKeys:List <String>): List<Train>? {
 
@@ -80,7 +67,6 @@ class SharedViewModel : ViewModel() {
         for (key in trainKeys) {
             getTrainById(key)?.let { foundTrains.add(it) }
         }
-
         return foundTrains
     }
 

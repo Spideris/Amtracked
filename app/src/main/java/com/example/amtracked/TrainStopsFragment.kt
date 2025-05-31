@@ -11,10 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.amtraker.SharedViewModel
-import com.example.amtraker.TrainListFragment.TrainAdapter
 import com.example.amtraker.api.Station
-import com.example.amtraker.api.StationMeta
-import com.example.amtraker.api.Train
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -80,6 +77,32 @@ class TrainStopsFragment : Fragment() {
     private fun updateUI() {
         var selectTrain = trainId?.let { viewModel.getTrainById(it) }
         if (selectTrain != null) {
+
+            val idTextView: TextView = requireView().findViewById(R.id.train_id)
+            val serviceLineTextView: TextView = requireView().findViewById(R.id.sevice_line)
+            val nextTextView: TextView = requireView().findViewById(R.id.next_station_or_status)
+            val destStationTextView: TextView = requireView().findViewById(R.id.dest_station)
+            val destETATextView: TextView = requireView().findViewById(R.id.eta)
+
+            idTextView.text = buildString {
+                append("Train ")
+                append(selectTrain.trainNum)
+            }
+            serviceLineTextView.text = buildString {
+                append(selectTrain.routeName)
+                append(" Line")
+            }
+            destStationTextView.text = buildString {
+                append("To: ")
+                append(selectTrain.destName)
+                append(" Station")
+            }
+            nextTextView.text = buildString {
+                append("Next: ")
+                append(selectTrain.eventName)
+                append(" Station")
+            }
+
             stationAdapter = TrainStopsAdapter(selectTrain.stations)
             trainStopsRecyclerView.adapter = stationAdapter
         }
@@ -90,7 +113,6 @@ class TrainStopsFragment : Fragment() {
         updateUI()
     }
 
-//    inner class SelectTrainAdapter(private var train: Train)
     inner class TrainStopsAdapter(private val stationList: List<Station>) : RecyclerView.Adapter<TrainStopsAdapter.StopViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StopViewHolder {

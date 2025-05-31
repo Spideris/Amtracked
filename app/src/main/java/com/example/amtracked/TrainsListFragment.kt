@@ -46,7 +46,7 @@ class TrainListFragment : Fragment() {
 
         println("view created")
 
-        println("Initiilazing this recycler with the train recycler?")
+        println("Initializing this recycler with the train recycler?")
         this.trainRecyclerView = view.findViewById(R.id.recycler_view) as RecyclerView
         println("Initializing layout manager")
         this.trainRecyclerView.layoutManager = LinearLayoutManager(requireContext())

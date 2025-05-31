@@ -15,6 +15,7 @@ import com.example.amtraker.api.Train
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import java.util.TimeZone
 
 private const val STATION_CODE = "param1"
 
@@ -88,7 +89,11 @@ class StationDetailsFragment : Fragment() {
                     append(", " + selectStationMeta.city + ", " + selectStationMeta.state)
                 }
             }
-            stationTimeZoneTextView.text = selectStationMeta.tz
+            stationTimeZoneTextView.text = buildString {
+                val timeZone = TimeZone.getTimeZone(selectStationMeta.tz)
+                append("Time Zone: " + timeZone.getDisplayName())
+            }
+                selectStationMeta.tz
 
             trainsAdapter = viewModel.getTrainsByKeys(selectStationMeta.trains)
                 ?.let { TrainsAdapter(it) }!!
@@ -147,12 +152,12 @@ class StationDetailsFragment : Fragment() {
                 }
                 destETATextView.text = buildString {
                     // Finds and formats the arrival time at the next station
-                    val nextStation = train.stations.find { it.code == train.eventCode }
-                    val nextStationArrival = nextStation?.arr
+                    val thisStation = train.stations.find { it.code == stationCode }
+                    val thisStationArrival = thisStation?.arr
                     var formattedArrString = "Unavailable"
-                    if (nextStationArrival != null) {
+                    if (thisStationArrival != null) {
 
-                        val zonedDateTime = ZonedDateTime.parse(nextStationArrival + '[' + nextStation.tz + ']')
+                        val zonedDateTime = ZonedDateTime.parse(thisStationArrival + '[' + thisStation.tz + ']')
                         val formatter = DateTimeFormatter.ofPattern("hh:mm a z MM/dd", Locale.ENGLISH)
                         formattedArrString = zonedDateTime.format(formatter)
                     }
