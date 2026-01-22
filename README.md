@@ -1,0 +1,1 @@
+To run, download the "Amtracked.apk" file to an Android device running version 8.0 or higher. Select the apk file in your device directory to install. You may need to allow installs from unknown sources in settings and confirm the install. Once installed, run the app. 
